@@ -1,0 +1,153 @@
+---
+title: "Introduction to simpletable"
+author: "James P. Curley"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+### Background
+
+<br>
+
+This is a small R package that makes it easy for the user to produce a simple attractive looking table in a RMarkdown document.  It is only intended for use when the output of the RMarkdown document is HTML.
+
+<br>
+
+There are many table packages out there that do lots of wonderful things.  They all have merits. I think [<b>formattable</b>](https://github.com/renkun-ken/formattable) by Kun Ren is going to be my favorite. I wrote this package to help me make some quick tables in RMarkdown that I found attractive and were better to look at for my collaborators than standard R output.  Because it seems others are also interested in table output, then I thought I'd share.
+
+<br>
+
+Currently, I only have included one function `tablecode` that enables you to turn any dataframe into a table.  Obviously, some common sense is needed in that your dataframe should be a reasonable number of columns and rows such that it would work in a table.  There is no point trying to make a table out of 1000 columns and 1000 rows.  I would recommend looking at packages like [<b>DT</b>](http://rstudio.github.io/DT/)
+
+
+<br>
+
+
+### Future Plans
+
+Currently you can just make simple tables (i.e. no nested tables or split cells).  I may extend it to be able to make those kind of tables.  Also, the current option is just to pick one of the default themes.  I have nearly finished making it such that you can modify the colors, borders, cell heights, font sizes etc. as you like to make tables that you like best.
+
+
+<br>
+<br>
+
+
+### Installation
+
+You can install from github with `devtools`:
+
+```{r, eval=FALSE}
+library(devtools)
+devtools::install_github("jalapic/simpletable")
+```
+
+
+<br>
+<br>
+
+
+### Using simpletable
+
+Once you have a dataframe that you'd like to make into a table, simply use the function:
+
+<br>
+
+`tablecode(df, tabletype="minimal")`
+
+<br>
+
+You can pick from one of several default tabletypes - they are shown below.   The critical thing is that this function must be written inside of a R chunk and you must have `results='asis'` as an option in your R chunk.
+
+<br>
+
+Current examples are shown below - note that some change color / font weight as you hover over them:
+
+<br>
+
+
+```{r, results='asis'}
+
+library(simpletable)
+
+tablecode(paintings, tabletype="minimal")
+
+```
+
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="hoverTable")
+```
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="box")
+```
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="onecol")
+```
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="flattable3")
+```
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="zebra")
+```
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="zebra1")
+```
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="gridtable")
+```
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="another")
+```
+
+<br>
+<br>
+
+```{r, results='asis'}
+tablecode(paintings, tabletype="simple")
+```
+
+<br>
+<br>
+
+
+### Feedback
+
+I'd welcome feedback or comments.  I don't have much time to work on this - I'm really just doing it for fun, but I'd like to hear from anyone who likes/dislikes it.   
+
+My email is jc3181 AT columbia DOT edu but it might be easier to get in touch on [twitter here](https://twitter.com/jalapic)  or on my [github page here](https://github.com/jalapic).
+
+<br>
