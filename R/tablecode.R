@@ -1,13 +1,13 @@
 #' Returns a Simple Table in RMarkdown HTML output
 #'
 #' @param df The dataframe to turn into a table
-#' @param tabletype the name of the table style.  The options currently are
-#' \code{minimal}, \code{onecol}, \code{box}, \code{hoverTable}, \code{zebra},
-#' \code{zebra1}, \code{another}, \code{simple}, \code{gridtable}
+#' @param tabletype the name of the table style.  The options currently
+#' available are \code{minimal}, \code{onecol}, \code{box}, \code{hoverTable}, \code{zebra},
+#'    \code{zebra1}, \code{another}, \code{simple}, \code{gridtable}
 #' @param width the width of the table
 #' @return A table of the desired style
 #' @examples
-#' tabletype(paintings, tabletype="minimal")
+#' tablecode(paintings, tabletype="minimal")
 #' @export
 
 
@@ -248,6 +248,20 @@ table#zebra1 tr:nth-child(odd) {color: black; background-color: #fff;}
     )
 }
 
+
+if(tabletype!="zebra" & tabletype!="zebra1" & tabletype!="minimal" & tabletype!="onecol" & tabletype!="box" &
+     tabletype!="simple" & tabletype!="hoverTable" & tabletype!="another" & tabletype!="gridtable"){
+
+  cat(
+    c(
+      noquote(paste0("<table id='", tabletype,"' style='width:", width, "'> ")),
+      noquote(paste0("<tr>", paste0("<th>", sprintf("%s",colnames(df)), "</th>", collapse=" "), "</tr>")),
+      noquote(unlist(lapply(tmp, function(x) paste0("<tr>", x, "</tr>")))),
+      noquote("</table>")
+    )
+  )
+
+}
 
 #end
 }

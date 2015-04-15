@@ -1,0 +1,161 @@
+---
+title: "simpletable III"
+author: "James P. Curley"
+date: "Tuesday, April 14, 2015"
+output: html_document
+---
+
+<br>
+<br>
+
+## Making custom tables
+
+My R package `simpletable` has a number of default table types that you can turn your dataframe into when using HTML output in RMarkdown.  There are several examples [here](http://rpubs.com/jalapic/simpletable) - that link also covers the basics of the `tablecode` function.
+
+An example, using the `paintings` dataframe:
+
+<br>
+
+```{r, results='asis'}
+
+library(simpletable)
+
+tablecode(paintings, tabletype="minimal")
+
+```
+
+<br>
+<br>
+
+
+Now, you may want to do more and actually make your own customized table.  You may want to change colors or font size or line heights, or borders etc. My main suggestion would be to learn a bit of css as that way you will be able to get really nice control over all features of your table.  However, there are many people who don't want to have to learn css just to make a pretty table.  The following how-to guide is probably for you.  Here, I am introducing a function called `stylecode` that makes it easy for the average R user to generate customized tables. If you're interested in changing lots about your table the parameters could get quite lengthy!
+
+<br>
+<br>
+<br>
+
+Last thing before we get going -  I have very little artistic ability and so my tables don't look that pretty. Admittedly, this is partly because I'm demoing how things can be changed on the fly and so I'm changing things in a strange order.  Nevertheless, if anybody manages to come up with some very attractive tables by manipulating the various parameters then please let me know. I'd love to add them to the default styles.
+
+<br><br>
+
+
+#### Every style needs a unique identifier
+
+The function `stylecode` is the function that enables the user to choose how their table will look.  By changing the parameters of this function, a user can store for later use a particular table style.  The style needs to be named using the `name=` argument.  The name given must be unique (i.e. not used elsewhere in the RMarkdown document to define a different style with different parameters).  
+
+
+Once the function has been used once, it can be referred to as many times as the user wants within the `tablecode` function.  This is particularly useful if wanting to make many tables all with the same style.   
+
+Here is the simplest example. All the parameters of `stylecode` are left to be equal to their default.  I have named these defaults as `uniqueid` and then I direct `tablecode` to produce a table of the style `uniqueid`.
+
+<br>
+
+```{r, results='asis'}
+
+stylecode(name="uniqueid")
+tablecode(paintings, tabletype="uniqueid")
+
+
+```
+
+
+<br><br>
+
+Let's say I wanted to change some things. Here I am changing the color of the header (`colh`), the color of the text in the header (`colh.text`), the background color of all other cells (`col`), the color of the text in the table (`col.text`), the font size of the header and the rest of the table (`font.size`) and the line height of cells (`lineheight`).
+
+As a result of making all of these changes, I'm giving these sets of parameters a different name `uniqueid1`.
+
+<br>
+
+
+```{r, results='asis'}
+
+stylecode(name="uniqueid1", colh="#FFFF99", colh.text="#000000", col="#FFFFCC", col.text="#111111", border.col="#FFFF99", font.size=c(15,12), lineheight=1)
+tablecode(paintings, tabletype="uniqueid1")
+
+
+```
+
+<br>
+
+You will probably have noticed that I have used [HTML colors](http://www.w3schools.com/html/html_colors.asp) rather than [R Colors](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf).  I think that for the most part, R color names will work, but I have run into some issues with colors not looking right or flat out being ignored (particularly the grays). I recommend using HTML color names/ids.
+
+<br>
+<br>
+
+
+**Remove Border**  To remove a border you can change the border style to 'none':
+
+<br>
+
+
+```{r, results='asis'}
+
+stylecode(name="uniqueid2", border.style="none")
+tablecode(paintings, tabletype="uniqueid2")
+
+```
+
+<br><br>
+
+
+**Add border underneath header**  To add a border you can change the border style to e.g. 'solid', 'double', 'dotted', etc. You should also define the color and weight of the border:
+
+<br>
+
+
+```{r, results='asis'}
+
+stylecode(name="uniqueid3", border.style="none", borderh.style="solid")
+tablecode(paintings, tabletype="uniqueid3")
+
+```
+
+<br><br>
+
+
+Here's another example taken from my [`apportR` package](http://rpubs.com/jalapic/apportRvig) which looks at the apportionment of seats in the House of Representatives:
+
+
+```{r}
+
+library(apportR)
+
+ham <- hamilton(usa1790, 120) #seats per state according to Hamilton's method
+jef <- jefferson(usa1790,120)[names(ham)] #seats per state according to Jefferson's method
+
+df1790 <- data.frame(State=names(usa1790), Population=usa1790, Hamilton = ham, Jefferson = jef)
+df1790
+```
+
+<br>
+
+In the following table, I'm reducing the final width to 25%, I'm centering both the header and main text and I'm using [rgba colors](http://www.w3schools.com/cssref/css_colors_legal.asp).  These are colors whose first three numbers refer to the RGB color codes, and the fourth number refers to the opacity of the color.  Smaller fourth numbers mean more transparency.
+
+I've also given the whole table a bizarre double border, increased the weight of the text in the header, changed the padding around borders and added a bottom border to each row.
+
+
+
+
+
+```{r, results='asis'}
+
+stylecode(name="uniqueid4", colh="rgba(0,0,255,0.2)", colh.text="#000000", col="rgba(0,0,255,0.1)", col.text="#000000", font.size=c(14,12), hfont.wt=900, lineheight=1.5, border.style="double", border.col="#3399FF", borderh.style="solid", borderh.wt=2, borderh.col="#3399FF", htext.align="center", text.align="center", borderb.style="solid", pad=c(3,1,3,3))
+
+tablecode(df1790, tabletype="uniqueid4", width="25%")
+
+```
+
+<br>
+
+If you can be bothered to make all of these changes, then you might want to think about just using css directly as it gives more precision.  Nevertheless, there's a lot that can be done with this function to make nice looking custom tables. 
+
+
+<br><br><br>
+
+
+### To add to this vignette:
+- vertical alignment
+- hovering
+- zebra stripes
+- column borders

@@ -1,0 +1,85 @@
+---
+title: "Introduction to simpletable II"
+author: "James P. Curley"
+date: "Tuesday, April 14, 2015"
+output: html_document
+---
+
+### Background
+
+The first guide to this package can be [found here](http://rpubs.com/jalapic/simpletable).
+
+<br>
+<br>
+
+
+### Installation
+
+You can install from github with `devtools`:
+
+```{r, eval=FALSE}
+library(devtools)
+devtools::install_github("jalapic/simpletable")
+```
+
+
+<br>
+<br>
+
+### Further Introductory Examples
+
+<br>
+<b> Rownames </b>
+<br>
+
+The rownames of a dataframe won't automatically be included as the first column.  To get them to show you need to do something like this:
+
+<br>
+<br>
+
+
+```{r, echo=F}
+library(simpletable)
+```
+
+
+```{r, results='asis'}
+tablecode(cbind(car=rownames(mtcars), mtcars), tabletype="minimal")
+
+```
+
+<br><br>
+
+
+
+
+```{r, results='asis'}
+tablecode(cbind(car=rownames(mtcars), mtcars), tabletype="gridtable")
+```
+
+
+
+<br><br>
+
+### Soccer Example !
+
+Here's an example using data from my [engsoccerdata](https://github.com/jalapic/engsoccerdata).  I'm using a function in that package called `maketable` which converts raw soccer scores into an end of season final league standings table.  I've happened to pick the final standings for the 1994/95 season for the top tier of English soccer. I then turn that into a more attractive table with `tablecode` from simpletable:
+
+<br>
+
+
+```{r, results='asis', warning=FALSE, message=FALSE}
+library(engsoccerdata)
+library(dplyr)
+engsoccerdata2 %>% 
+  filter(Season==1994 & tier==1) %>% 
+  maketable() %>%
+  as.data.frame() %>%
+  tablecode(tabletype="another")
+
+```
+
+<br><br><br>
+
+
+

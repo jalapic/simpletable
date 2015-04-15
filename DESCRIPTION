@@ -1,10 +1,13 @@
 Package: simpletable
-Title: What the Package Does (one line, title case)
+Title: Makes simple tables in RMarkdown
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph)
+Description: Enables custom style tables to be easily made in RMarkdown
+Authors: James P. Curley <jc3181@columbia.edu>
+Maintainer: James P. Curley <jc3181@columbia.edu>
 Depends: R (>= 3.1.2)
-License: What license is it under?
+License: >GPL-3
 LazyData: true
 Suggests: knitr
+URL: https://github.com/jalapic/musicnotationR
+BugReports: https://github.com/jalapic/musicnotationR
 VignetteBuilder: knitr

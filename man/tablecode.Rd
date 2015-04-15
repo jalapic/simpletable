@@ -9,7 +9,9 @@ tablecode(df, tabletype = "tabletype", width = "80\%")
 \arguments{
 \item{df}{The dataframe to turn into a table}
 
-\item{tabletype}{the name of the table style}
+\item{tabletype}{the name of the table style.  The options currently
+available are \code{minimal}, \code{onecol}, \code{box}, \code{hoverTable}, \code{zebra},
+   \code{zebra1}, \code{another}, \code{simple}, \code{gridtable}}
 
 \item{width}{the width of the table}
 }
@@ -20,6 +22,6 @@ A table of the desired style
 Returns a Simple Table in RMarkdown HTML output
 }
 \examples{
-tabletype(paintings, tabletype="minimal")
+tablecode(paintings, tabletype="minimal")
 }
 
