@@ -1,0 +1,136 @@
+---
+title: simpletable intro IV
+author: "James P. Curley"
+date: "Wednesday, April 15, 2015"
+output: html_document
+---
+
+### Using simpletable and broom together
+
+The [`broom`](https://github.com/dgrtwo/broom) package is a great R package for neatly summarizing the results of statistical tests and models.  The output of `broom` is always a data.frame and rownames are always included as the first column.  This makes them work very seamlessly with `simpletable` if we want to produce an attractive looking table in a RMarkdown document.
+
+<br>
+
+For background information on `simpletable`  see the introductory vignette [here](https://github.com/dgrtwo/broom) or the github page [here](https://github.com/jalapic/simpletable).
+
+
+<br>
+<br>
+
+
+### Load packages
+
+```{r}
+library(broom)
+library(simpletable)
+```
+
+
+<br><br>
+<br>
+
+### Some examples
+
+I will first use the `tidy` function in `broom` to make some summary tables of a `lm` and `glm` model.
+
+<br><br>
+
+```{r}
+lmfit <- lm(mpg ~ wt, mtcars)
+lmfit
+```
+
+<br>
+
+```{r}
+tidy(lmfit)
+```
+
+<br>
+<br>
+This is how we can make it look using `simpletable` using two default styles:
+
+<br>
+<br>
+```{r, results='asis'}
+tablecode(tidy(lmfit), tabletype="minimal")
+```
+
+<br>
+
+<br>
+
+```{r, results='asis'}
+tablecode(tidy(lmfit), tabletype="box")
+```
+<br>
+
+<br>
+
+**Here is another example:**
+
+
+```{r}
+glmfit <- glm(am ~ wt, mtcars, family="binomial")
+glmfit
+tidy(glmfit)
+```
+
+<br>
+
+
+```{r, results='asis'}
+tablecode(tidy(glmfit), tabletype="minimal")
+```
+
+<br>
+
+
+```{r, results='asis'}
+tablecode(tidy(glmfit), tabletype="box")
+```
+
+
+<br><br>
+
+#### We can also look at the fitted values and residuals with `augment`
+
+<br>
+
+```{r}
+lmfit.a <-augment(lmfit)
+lmfit.a[,4:10] <- round(lmfit.a[,4:10],3)
+```
+
+<br>
+
+which can give..
+
+<br>
+<br>
+```{r, results='asis'}
+tablecode(lmfit.a, tabletype="gridtable")
+```
+
+<br>
+<br><br>
+
+
+#### Customizing the output
+
+It's  still a work in process, but I'm also enabling the user to customize output of tables to change all sorts of features. This can be done with the `stylecode` function.  A vignette is in the works.  Here is a brief example:
+
+
+```{r,results='asis'}
+
+stylecode(name="uniqueid", colh="rgba(0,0,255,0.2)", colh.text="#000000", col="rgba(0,0,255,0.1)", col.text="#000000", font.size=c(14,12), hfont.wt=900, lineheight=1.5, border.style="none", borderh.style="solid", borderh.wt=2, borderh.col="#3399FF", htext.align="center", text.align="center", borderb.style="solid", pad=c(3,1,3,3))
+
+tablecode(lmfit.a, tabletype="uniqueid", width="35%")
+
+```
+<br>
+<br>
+
+I still have some features to add to this function such as the ability to manipulate the width of the first column independently of the other columns,  but this gives you an idea of what's possible.
+
+<br><br><br>
